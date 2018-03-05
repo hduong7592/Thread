@@ -1,15 +1,15 @@
-public class SynchQueue<T> {
-    T[] data;
+public class SynchQueue {
+    int[] data;
     int last;
     boolean done;
 
     public SynchQueue(){
-        data = (T[]) new Object[10];
+        data = new int[10];
         last = -1;
         done = false;
     }
 
-    public boolean enqueue(T value){
+    public boolean enqueue(int value){
         if(isFull()){
             return false;
         }
@@ -20,18 +20,18 @@ public class SynchQueue<T> {
         }
     }
 
-    public T dequeue(){
+    public int dequeue(){
 
         if(isEmpty()){
-            return null;
+            return -1;
         }
         else {
-            T value = data[0];
+            int value = data[0];
             //Shift data to the left to fill the empty space of frontIndex
             for (int i = 0; i < data.length; i++) {
                 if ((i + 1) < data.length) {
                     data[i] = data[i + 1];
-                    data[i + 1] = null;
+                    data[i + 1] = -2;
                 }
             }
             last--;
