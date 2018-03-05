@@ -2,7 +2,7 @@ import java.util.Scanner;
 
 public class TestProdCons {
     public static void main(String[] args){
-        SynchQueue<Integer> sq = new SynchQueue<>();
+        SynchQueue sq = new SynchQueue();
 
         Scanner keyboard = new Scanner(System.in);
 
