@@ -70,7 +70,7 @@ public class TestProdCons {
         //Create an array to hold producer threads
         Thread[] producerThreads = new Thread[producerCount];
         for(int index=0; index<producerCount; index++){
-            ProduceThread pt = new ProduceThread((index+1), sq);
+            Thread pt = new ProduceThread((index+1), sq);
             producerThreads[index] = pt;
             pt.start();
         }
@@ -78,7 +78,7 @@ public class TestProdCons {
         //Create an array to hold consumer threads
         Thread[] consumerThreads = new Thread[consumerCount];
         for(int index=0; index<consumerCount; index++){
-            ConsumerThread ct = new ConsumerThread((index+1), sq);
+            Thread ct = new ConsumerThread((index+1), sq);
             consumerThreads[index] = ct;
             ct.start();
         }
