@@ -101,6 +101,6 @@ public class TestProdCons {
             }
         }
 
-        System.out.println("All done");
+        System.out.println("Main program exiting after joining threads.");
     }
 }
