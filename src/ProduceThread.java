@@ -1,3 +1,11 @@
+/**
+ * ProduceThread class
+ *
+ * @author Hieu Duong
+ * @date 03/05/2018
+ */
+
+
 import java.security.SecureRandom;
 
 public class ProduceThread extends Thread {
@@ -15,16 +23,14 @@ public class ProduceThread extends Thread {
         System.out.println("Producer "+index+" started.");
 
         try{
-            this.sleep(3000);
+            this.sleep(30000);
         }catch(Exception ex){
             System.out.println(ex.getMessage());
         }
         synchronized (lock) {
             while (!sq.isDone()) {
-
                 int randomNumber = (new SecureRandom()).nextInt(10) + 1;
                 if (sq.enqueue(randomNumber)) {
-                    //System.out.println(sq);
                     System.out.println("Producer " + index + " added: " + randomNumber + ", queue size: " + sq.size());
                     try {
                         int sleepTime = (new SecureRandom()).nextInt(1000);

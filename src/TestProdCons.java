@@ -1,3 +1,11 @@
+/**
+ * TestProdCons class
+ *
+ * @author Hieu Duong
+ * @date 03/05/2018
+ */
+
+
 import java.util.Scanner;
 
 public class TestProdCons {
@@ -19,17 +27,14 @@ public class TestProdCons {
                 int producerCount = 0;
                 try{
                     producerCount = Integer.parseInt(command[0]);
-
                 }catch (Exception ex){
                     System.out.println("Unable to get command. System terminated!");
                     System.exit(1);
                 }
 
-                Thread[] producerThreads = new Thread[producerCount];
-                for(int index=0; index<producerCount; index++){
-                    ProduceThread pt = new ProduceThread((index+1), sq);
-                    producerThreads[index] = pt;
-                    pt.start();
+                if(producerCount==0){
+                    System.out.println("Input must be integer and larger than 0.");
+                    System.exit(1);
                 }
 
                 int consumerCount = 0;
@@ -40,27 +45,62 @@ public class TestProdCons {
                     System.exit(1);
                 }
 
-                Thread[] consumerThreads = new Thread[consumerCount];
-                for(int index=0; index<consumerCount; index++){
-                    ConsumerThread ct = new ConsumerThread((index+1), sq);
-                    consumerThreads[index] = ct;
-                    ct.start();
+                if(consumerCount==0){
+                    System.out.println("Input must be integer and larger than 0.");
+                    System.exit(1);
                 }
 
-                for (Thread ptThread : producerThreads) {
-                    ptThread.join();
-                }
-
-                for (Thread ctThread : consumerThreads) {
-                    ctThread.join();
-                }
-
-                System.out.println("All done");
+                startThreads(producerCount, consumerCount, sq);
             }
         }
         catch(Exception ex){
             System.out.println("Input is not correct. System terminated!");
             System.exit(1);
         }
+    }
+
+    /**
+     * Method to inttialize and start threads
+     * @param producerCount
+     * @param consumerCount
+     * @param sq
+     */
+    public static void startThreads(int producerCount, int consumerCount, SynchQueue sq) {
+
+        //Create an array to hold producer threads
+        Thread[] producerThreads = new Thread[producerCount];
+        for(int index=0; index<producerCount; index++){
+            ProduceThread pt = new ProduceThread((index+1), sq);
+            producerThreads[index] = pt;
+            pt.start();
+        }
+
+        //Create an array to hold consumer threads
+        Thread[] consumerThreads = new Thread[consumerCount];
+        for(int index=0; index<consumerCount; index++){
+            ConsumerThread ct = new ConsumerThread((index+1), sq);
+            consumerThreads[index] = ct;
+            ct.start();
+        }
+
+        //Join producer thread to main thread
+        for (Thread ptThread : producerThreads) {
+            try {
+                ptThread.join();
+            }catch (Exception ex){
+                System.out.println(ex.getMessage());
+            }
+        }
+
+        //Join consumer thread to main thread
+        for (Thread ctThread : consumerThreads) {
+            try {
+                ctThread.join();
+            }catch (Exception ex){
+                System.out.println(ex.getMessage());
+            }
+        }
+
+        System.out.println("All done");
     }
 }

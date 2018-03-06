@@ -1,3 +1,11 @@
+/**
+ * ConsumerThread class
+ *
+ * @author Hieu Duong
+ * @date 03/05/2018
+ */
+
+
 import java.security.SecureRandom;
 
 public class ConsumerThread extends Thread {
@@ -15,16 +23,14 @@ public class ConsumerThread extends Thread {
         System.out.println("Consumer "+index+" started.");
 
         try{
-            this.sleep(4000);
+            this.sleep(30000);
         }catch(Exception ex){
             System.out.println(ex.getMessage());
         }
 
-        boolean isNotDone = true;
         synchronized (lock) {
-            while (isNotDone) {
-                int number = (int) sq.dequeue();
-                //System.out.println("Dequeue");
+            while (!sq.isDone()) {
+                int number = sq.dequeue();
                 if(number >=0 ){
                     System.out.println("Consumer " + index + " removed: " + number + ", computed " + number + "!: " + computeFactorial(number));
                     try {
@@ -34,12 +40,19 @@ public class ConsumerThread extends Thread {
                         System.out.println(ex.getMessage());
                     }
                 }
-                isNotDone = sq.isDone();
+                else{
+                    System.out.println("Nothing in queue. Size: "+sq.size());
+                }
             }
         }
 
     }
 
+    /**
+     * Recursion method to compute factorial
+     * @param n
+     * @return
+     */
     public int computeFactorial(int n){
         if(n<=1) return 1;
         else{

@@ -1,3 +1,10 @@
+/**
+ * SynchQueue class
+ *
+ * @author Hieu Duong
+ * @date 03/05/2018
+ */
+
 public class SynchQueue {
     int[] data;
     int last;
